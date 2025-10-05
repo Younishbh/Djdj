@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>متجر العطور — حجز عبر واتساب</title>
+  <style>
+    :root{
+      --bg:#fbf8f7; --card:#fff; --accent:#b76e79; --accent-dark:#8a4760; --muted:#6b6b6b;
+      --shadow: 0 8px 28px rgba(0,0,0,0.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic", "Helvetica Neue", Arial; background:var(--bg); color:#111; line-height:1.4}
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:linear-gradient(90deg,#fff,#fbf6f8);box-shadow:0 2px 12px rgba(0,0,0,0.04);position:sticky;top:0;z-index:40}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#ffdfe6,#fff0f3);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent-dark);font-size:20px}
+    h1{margin:0;font-size:18px}
+    .muted{font-size:12px;color:var(--muted)}
+    nav{display:flex;gap:8px;align-items:center}
+    nav a{color:var(--accent-dark);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:700}
+    nav a:hover{background:#fff0f5}
+    .controls{display:flex;gap:10px;align-items:center}
+    .search{padding:10px;border-radius:10px;border:1px solid #eee;min-width:180px}
+    .btn{background:var(--accent);color:#fff;border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700;box-shadow:var(--shadow)}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(0,0,0,0.06)}
+    main{max-width:1100px;margin:24px auto;padding:0 16px 80px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+    .card{background:var(--card);border-radius:16px;padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;cursor:pointer;transition:transform .18s,box-shadow .18s}
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 48px rgba(0,0,0,0.12)}
+    .imgwrap{height:210px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:#f6f3f4}
+    .imgwrap img{width:100%;height:100%;object-fit:cover}
+    .meta{text-align:center;padding:6px}
+    .title{font-weight:800;font-size:16px;margin-bottom:6px}
+    .price{font-weight:900;color:var(--accent-dark);font-size:16px}
+    .old{text-decoration:line-through;color:#999;font-size:13px}
+    #detailPage,#checkoutPage{display:none;animation:fade .25s}
+    @keyframes fade{from{opacity:0}to{opacity:1}}
+    #detailPage img{width:100%;max-width:480px;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,0.08)}
+    .detail-info{margin-top:14px}
+    #cartPanel{position:fixed;top:0;bottom:0;right:0;width:380px;max-width:96%;background:var(--card);box-shadow:-14px 0 48px rgba(0,0,0,0.12);transform:translateX(110%);transition:transform .28s ease;z-index:80;display:flex;flex-direction:column}
+    #cartPanel.open{transform:translateX(0)}
+    #cartHeader{padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,0,0,0.04)}
+    #cartBody{padding:14px;overflow:auto;flex:1}
+    .cart-item{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.03)}
+    .cart-item img{width:64px;height:64px;border-radius:8px;object-fit:cover}
+    .cart-foot{padding:16px;border-top:1px solid rgba(0,0,0,0.04)}
+    footer{padding:18px;text-align:center;color:var(--muted);position:relative;z-index:0}
+    .whatsapp{position:fixed;left:16px;bottom:16px;width:62px;height:62px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 34px rgba(37,211,102,0.18);z-index:90}
+    input,textarea,select{width:100%;padding:10px;margin-top:6px;border-radius:10px;border:1px solid #e6e6e6;font-size:15px}
+    form{max-width:620px;margin:14px auto;background:var(--card);padding:18px;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,0.06)}
+    .tag{display:inline-block;background:#fff0f5;color:var(--accent-dark);padding:6px 10px;border-radius:999px;font-weight:700}
+    @media(max-width:880px){ .imgwrap{height:160px} #cartPanel{width:320px} .logo{width:44px;height:44px} }
+    @media(max-width:520px){ header{flex-direction:column;align-items:stretch;gap:10px} nav{order:3} main{padding:12px} form{padding:12px} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">ع</div>
+      <div>
+        <h1>متجر العطور</h1>
+        <div class="muted">خلطاتنا الخاصة — جودة وأمان</div>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#" id="link-home">الرئيسية</a>
+      <a href="#" id="link-offers">عروضنا</a>
+    </nav>
+
+    <div class="controls">
+      <input id="search" class="search" placeholder="ابحث عن عطر..." aria-label="بحث">
+      <button id="openCartBtn" class="btn" title="عرض السلة">السلة (<span id="cartCount">0</span>)</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- الصفحة الرئيسية -->
+    <section id="homePage"><div id="grid" class="grid" aria-live="polite"></div></section>
+
+    <!-- تفاصيل المنتج -->
+    <section id="detailPage" style="padding:18px;">
+      <button class="btn ghost" id="backBtn">← رجوع</button>
+      <div style="display:flex;flex-wrap:wrap;gap:18px;margin-top:16px;align-items:flex-start;justify-content:center">
+        <img id="detailImg" alt="صورة المنتج">
+        <div class="detail-info">
+          <h2 id="detailName"></h2>
+          <p id="detailDesc" style="color:var(--muted)"></p>
+          <p style="margin-top:8px"><strong>السعر:</strong> <span id="detailPrice"></span></p>
+          <div style="margin-top:12px">
+            <button id="addToCartDetail" class="btn">أضف إلى السلة</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- صفحة الحجز (نموذج) -->
+    <section id="checkoutPage" style="padding:18px;">
+      <button class="btn ghost" id="backToCart">← رجوع</button>
+      <h2 style="text-align:center;margin-top:10px;">معلومات الحجز</h2>
+
+      <form id="orderForm" aria-label="نموذج الحجز">
+        <label>الاسم</label>
+        <input id="custName" required placeholder="الاسم الكامل">
+
+        <label>رقم الهاتف</label>
+        <input id="custPhone" required type="tel" placeholder="مثال: 0785xxxxxxx">
+
+        <label>السكن</label>
+        <input id="custAddress" required placeholder="شارع/منطقة/مدينة">
+
+        <label>أقرب نقطة دالة</label>
+        <input id="custNear" required placeholder="مثلاً: أمام مدرسة النور">
+
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button type="button" id="getLocation" class="btn ghost" style="flex:1">📍 تحديد موقعي</button>
+          <div style="flex:2;align-self:center;color:var(--muted);font-size:13px" id="locStatus">(اختياري)</div>
+        </div>
+
+        <div style="margin-top:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div style="color:var(--muted)">مجموع الطلب</div>
+            <div id="summaryTotal" style="font-weight:900;color:var(--accent-dark)">0 د.ع</div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn" style="margin-top:14px">إرسال الطلب للحجز</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- واتساب عائم -->
+  <a id="whats" class="whatsapp" target="_blank" rel="noopener" aria-label="واتساب">
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M20.52 3.48A11.8 11.8 0 0012 .5C6 0.5 1.3 5.2 1.3 11.2c0 1.98.52 3.9 1.5 5.6L.5 23.5l6.9-1.8c1.6.8 3.4 1.2 5.4 1.2 6 0 10.7-4.7 10.7-10.7 0-3-1.2-5.8-3.5-7.7z"/></svg>
+  </a>
+
+  <!-- لوحة السلة -->
+  <aside id="cartPanel" aria-hidden="true">
+    <div id="cartHeader">
+      <h3>سلة التسوق</h3>
+      <button id="closeCart" class="btn ghost">إغلاق</button>
+    </div>
+    <div id="cartBody">
+      <div id="emptyNotice" style="padding:20px;text-align:center;color:var(--muted)">السلة فارغة</div>
+      <div id="items"></div>
+    </div>
+    <div class="cart-foot">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div>المجموع</div>
+        <div id="total" style="font-weight:900;color:var(--accent-dark)">0 د.ع</div>
+      </div>
+      <button id="checkout" class="btn" style="width:100%">شراء الآن</button>
+    </div>
+  </aside>
+
+  <footer>© <span id="year"></span> متجر العطور</footer>
+
+  <script>
+    // ======= الإعدادات: ضع رقم واتساب هنا (محلي أو دولي) =======
+    const whatsappNumberLocal = "07858644168"; // رقمك
+    function toInternationalNumber(raw){
+      const digits = String(raw).replace(/\\D/g,'');
+      if(!digits) return '';
+      if(digits.startsWith('0')) return '964' + digits.slice(1);
+      return digits;
+    }
+    const whatsappNumber = toInternationalNumber(whatsappNumberLocal);
+    // ==========================================================
+
+    // بيانات المنتجات
+    const products = [
+      {id:"1", name:"بغداد", price:7000, image:"https://images.unsplash.com/photo-1600180758890-6d8301a35b9f?w=900&q=80"},
+      {id:"2", name:"رقة", price:7000, image:"https://images.unsplash.com/photo-1585386959984-a4155224a1e1?w=900&q=80"},
+      {id:"3", name:"هدوء", price:8000, image:"https://images.unsplash.com/photo-1611162616305-4ec3060a058e?w=900&q=80"},
+      {id:"4", name:"عرض خاص (بغداد + رقة + هدوء)", price:15000, oldPrice:22000, offer:true, image:"https://images.unsplash.com/photo-1600180758890-6d8301a35b9f?w=900&q=80"}
+    ];
+
+    const productDesc = "العطر مصنوع من خلطة خاصة بنا فقط ولا يحتوي على زيوت مضرة أو مسببة للحساسية. تم الصنع بطريقة ابتكارية حديثة تمنحك ثباتًا وأناقة تدوم.";
+
+    // DOM
+    const grid = document.getElementById('grid');
+    const search = document.getElementById('search');
+    const homePage = document.getElementById('homePage');
+    const detailPage = document.getElementById('detailPage');
+    const checkoutPage = document.getElementById('checkoutPage');
+    const cartPanel = document.getElementById('cartPanel');
+    const itemsEl = document.getElementById('items');
+    const totalEl = document.getElementById('total');
+    const cartCountEl = document.getElementById('cartCount');
+    const summaryTotal = document.getElementById('summaryTotal');
+    const locStatus = document.getElementById('locStatus');
+    const whatsAnchor = document.getElementById('whats');
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let currentProduct = null;
+    let locationLink = '';
+    const nf = new Intl.NumberFormat('ar-EG');
+
+    // ضبط رابط واتساب الظاهر
+    if(whatsappNumber){
+      whatsAnchor.href = `https://wa.me/${whatsappNumber}`;
+    } else { whatsAnchor.style.display='none'; console.warn('رقم واتساب غير صالح'); }
+
+    // عرض المنتجات
+    function renderProducts(list){
+      grid.innerHTML='';
+      if(!list.length){ grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:28px;color:var(--muted)">لا توجد منتجات</div>'; return; }
+      list.forEach(p => {
+        const el = document.createElement('article');
+        el.className = 'card';
+        el.innerHTML = `
+          <div class="imgwrap"><img src="${p.image}" alt="${escapeHtml(p.name)}"></div>
+          <div class="meta">
+            <div class="title">${escapeHtml(p.name)}</div>
+            ${p.oldPrice?`<div class="old">${nf.format(p.oldPrice)} د.ع</div>`:''}
+            <div class="price">${nf.format(p.price)} د.ع</div>
+          </div>
+        `;
+        el.onclick = () => showDetail(p);
+        grid.appendChild(el);
+      });
+    }
+
+    // تفاصيل
+    function showDetail(p){
+      currentProduct = p;
+      homePage.style.display='none'; checkoutPage.style.display='none'; detailPage.style.display='block';
+      document.getElementById('detailName').textContent = p.name;
+      document.getElementById('detailDesc').textContent = productDesc;
+      document.getElementById('detailPrice').textContent = nf.format(p.price) + ' د.ع';
+      document.getElementById('detailImg').src = p.image;
+      window.scrollTo({top:0,behavior:'smooth'});
+    }
+    document.getElementById('backBtn').onclick = ()=>{ detailPage.style.display='none'; homePage.style.display='block'; }
+
+    document.getElementById('addToCartDetail').onclick = ()=>{ if(currentProduct) addToCartById(currentProduct.id); alert('تمت الإضافة إلى السلة'); }
+
+    // سلة
+    function addToCartById(id){
+      const p = products.find(x=>x.id===id); if(!p) return;
+      const found = cart.find(i=>i.id===id);
+      if(found) found.qty+=1; else cart.push({...p, qty:1});
+      saveCart();
+    }
+    function saveCart(){ localStorage.setItem('cart', JSON.stringify(cart)); renderCart(); }
+    function renderCart(){
+      itemsEl.innerHTML='';
+      if(cart.length===0){ document.getElementById('emptyNotice').style.display='block'; totalEl.textContent='0 د.ع'; cartCountEl.textContent='0'; summaryTotal.textContent='0 د.ع'; return; }
+      document.getElementById('emptyNotice').style.display='none';
+      let t=0; cart.forEach(item=>{ t+=item.price*item.qty; const row=document.createElement('div'); row.className='cart-item'; row.innerHTML = `<img src="${item.image}" alt=""><div style="flex:1"><div style="font-weight:800">${escapeHtml(item.name)}</div><div style="color:var(--muted);margin-top:6px">${nf.format(item.price)} د.ع</div><div style="margin-top:8px;display:flex;gap:8px;align-items:center"><input class="qty" type="number" min="1" value="${item.qty}" data-id="${item.id}" style="width:70px"><button class="btn ghost remove" data-id="${item.id}">حذف</button></div></div>`; itemsEl.appendChild(row); });
+      totalEl.textContent = nf.format(t) + ' د.ع'; cartCountEl.textContent = cart.reduce((s,i)=>s+i.qty,0); summaryTotal.textContent = nf.format(t) + ' د.ع';
+      itemsEl.querySelectorAll('.remove').forEach(b=>b.onclick=()=>{ cart = cart.filter(x=>x.id!==b.dataset.id); saveCart(); });
+      itemsEl.querySelectorAll('.qty').forEach(q=>q.onchange=()=>{ cart = cart.map(x=>x.id===q.dataset.id?{...x,qty:Math.max(1,parseInt(q.value)||1)}:x); saveCart(); });
+    }
+
+    // بحث
+    search.addEventListener('input', ()=>{ const q=(search.value||'').trim().toLowerCase(); if(!q) renderProducts(products); else renderProducts(products.filter(p=>p.name.toLowerCase().includes(q))); });
+
+    // تنقل
+    document.getElementById('link-home').onclick = (e)=>{ e.preventDefault(); renderProducts(products); homePage.style.display='block'; detailPage.style.display='none'; checkoutPage.style.display='none'; window.scrollTo({top:0,behavior:'smooth'}); }
+    document.getElementById('link-offers').onclick = (e)=>{ e.preventDefault(); renderProducts(products.filter(p=>p.offer)); homePage.style.display='block'; detailPage.style.display='none'; checkoutPage.style.display='none'; window.scrollTo({top:0,behavior:'smooth'}); }
+
+    // أحداث السلة
+    document.getElementById('openCartBtn').onclick = ()=> cartPanel.classList.add('open');
+    document.getElementById('closeCart').onclick = ()=> cartPanel.classList.remove('open');
+
+    // دفع -> فتح نموذج الحجز
+    document.getElementById('checkout').onclick = ()=>{
+      if(cart.length===0) return alert('السلة فارغة');
+      cartPanel.classList.remove('open');
+      homePage.style.display='none'; detailPage.style.display='none'; checkoutPage.style.display='block'; window.scrollTo({top:0,behavior:'smooth'});
+    }
+    document.getElementById('backToCart').onclick = ()=>{ checkoutPage.style.display='none'; homePage.style.display='block'; window.scrollTo({top:0,behavior:'smooth'}); }
+
+    // GPS
+    document.getElementById('getLocation').onclick = ()=>{
+      locStatus.textContent = 'جاري تحديد الموقع...'; if(!navigator.geolocation){ locStatus.textContent='المتصفح لا يدعم تحديد الموقع'; return; }
+      navigator.geolocation.getCurrentPosition(pos=>{ const {latitude,longitude} = pos.coords; locationLink = `https://www.google.com/maps?q=${latitude},${longitude}`; locStatus.textContent='✅ تم تحديد الموقع'; }, err=>{ locStatus.textContent='تعذّر تحديد الموقع — تأكد من سماح المتصفح' }, {enableHighAccuracy:true, timeout:15000});
+    }
+
+    // إرسال إلى واتساب
+    document.getElementById('orderForm').onsubmit = (e)=>{
+      e.preventDefault();
+      if(!whatsappNumber){ alert('لم يتم تفعيل رقم واتساب في الإعدادات'); return; }
+      const name = document.getElementById('custName').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const addr = document.getElementById('custAddress').value.trim();
+      const near = document.getElementById('custNear').value.trim();
+      if(!name||!phone||!addr||!near){ alert('يرجى تعبئة جميع الحقول'); return; }
+      const productsList = cart.map(it=>`• ${it.name} (x${it.qty}) — ${nf.format(it.price*it.qty)} د.ع`).join('\\n');
+      const totalAmount = cart.reduce((s,i)=>s+i.price*i.qty,0);
+      let message = `طلب حجز جديد%0A%0A👤 الاسم: ${name}%0A📞 الهاتف: ${phone}%0A🏠 السكن: ${addr}%0A📍 أقرب نقطة دالة: ${near}%0A%0A🧾 الطلب:%0A${encodeURIComponent(productsList)}%0A%0A💰 المجموع: ${nf.format(totalAmount)} د.ع`;
+      if(locationLink) message += `%0A%0A📌 الموقع: ${encodeURIComponent(locationLink)}`;
+      message += `%0A%0A🔔 ملاحظة: العطور مصنوعة من خلطة خاصة ولا تحتوي على زيوت مضرة أو مسببة حساسية.`;
+      const waUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+      window.open(waUrl,'_blank');
+      cart = []; saveCart();
+      checkoutPage.style.display='none'; homePage.style.display='block';
+    }
+
+    // حماية نص
+    function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',\"'\":'&#39;'}[m])); }
+
+    // init
+    function init(){ renderProducts(products); renderCart(); document.getElementById('year').textContent = new Date().getFullYear(); }
+
+    init();
+  </script>
+</body>
+</html>
