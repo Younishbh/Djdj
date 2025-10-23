@@ -1,197 +1,252 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محلل ضعف حسابات التواصل الاجتماعي بالذكاء الاصطناعي</title>
+    <title>إلى وردتي اللطيفة</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Changa:wght@300;400;500;600;700&display=swap');
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Changa', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
-            padding: 20px;
-            text-align: right; /* لمحاذاة النص لليمين للغة العربية */
-            direction: rtl; /* لتوجيه العناصر من اليمين لليسار */
+            background: linear-gradient(135deg, #f06d06, #f3d4d4); /* تدرج لوني جذاب */
+            color: #333;
+            overflow: hidden;
+            position: relative;
         }
+
         .container {
-            max-width: 900px;
-            margin: 30px auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        h1, h2 {
-            color: #2c3e50;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #d12e69; /* لون وردي للعنوان */
+            margin-bottom: 25px;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .input-group {
             margin-bottom: 25px;
         }
-        p {
-            margin-bottom: 15px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
+
+        .input-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: bold;
             color: #555;
+            font-size: 1.1em;
         }
-        .form-group input[type="text"],
-        .form-group select,
-        .form-group textarea {
+
+        .input-group input[type="text"] {
             width: calc(100% - 20px);
             padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            box-sizing: border-box;
-        }
-        .form-group button {
-            background-color: #007bff;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: background-color 0.3s ease;
-            display: block;
-            width: 100%;
-        }
-        .form-group button:hover {
-            background-color: #0056b3;
-        }
-        .results-section {
-            margin-top: 40px;
-            padding: 25px;
-            background-color: #e9f5ff;
-            border-left: 5px solid #007bff;
-            border-radius: 5px;
-            display: none; /* سيتم إظهار هذا القسم بواسطة JavaScript بعد التحليل */
-        }
-        .results-section h3 {
-            color: #007bff;
-            margin-bottom: 15px;
-        }
-        .results-section ul {
-            list-style: none;
-            padding: 0;
-        }
-        .results-section ul li {
-            background-color: #f0f8ff;
-            margin-bottom: 10px;
-            padding: 10px 15px;
-            border-radius: 4px;
-            border: 1px solid #cceeff;
-        }
-        footer {
+            border: 2px solid #f06d06; /* لون برتقالي للحدود */
+            border-radius: 10px;
+            font-size: 1em;
             text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            color: #777;
-            font-size: 0.9rem;
-            border-top: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input[type="text"]:focus {
+            outline: none;
+            border-color: #d12e69; /* لون وردي عند التركيز */
+            box-shadow: 0 0 10px rgba(209, 46, 105, 0.2);
+        }
+
+        button {
+            background-color: #f06d06; /* لون برتقالي للزر */
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(240, 109, 6, 0.3);
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #d12e69; /* لون وردي عند التحويم */
+            transform: translateY(-3px);
+        }
+
+        #responseMessage {
+            margin-top: 25px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #d12e69;
+            min-height: 30px;
+        }
+
+        /* Bubbles animation */
+        .bubble {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: floatBubble 15s infinite ease-in-out;
+            z-index: 1;
+        }
+
+        @keyframes floatBubble {
+            0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+            50% { transform: translateY(-100vh) translateX(50px) scale(1.2); opacity: 0.8; }
+            100% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            p {
+                font-size: 1em;
+            }
+            button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="bubble" style="width: 60px; height: 60px; top: 10%; left: 15%; animation-delay: 0s;"></div>
+    <div class="bubble" style="width: 40px; height: 40px; top: 30%; left: 80%; animation-delay: 3s;"></div>
+    <div class="bubble" style="width: 80px; height: 80px; top: 60%; left: 30%; animation-delay: 6s;"></div>
+    <div class="bubble" style="width: 50px; height: 50px; top: 80%; left: 5%; animation-delay: 9s;"></div>
+    <div class="bubble" style="width: 70px; height: 70px; top: 20%; left: 50%; animation-delay: 12s;"></div>
+
     <div class="container">
-        <h1>محلل ضعف حسابات التواصل الاجتماعي بالذكاء الاصطناعي</h1>
-        <p>
-            تستخدم هذه الأداة الذكاء الاصطناعي لتحليل نقاط الضعف المحتملة في حساباتك على وسائل التواصل الاجتماعي وتقديم توصيات لتحسين الأمان.
-        </p>
+        <h1 id="mainTitle">إلى وردتي اللطيفة والغبيه ❤️</h1>
+        <p id="questionText">شلونچ يا وردتي؟</p>
 
-        <form id="analysisForm">
-            <div class="form-group">
-                <label for="platform">اختر منصة التواصل الاجتماعي:</label>
-                <select id="platform" name="platform" required>
-                    <option value="">-- اختر منصة --</option>
-                    <option value="facebook">فيسبوك</option>
-                    <option value="twitter">تويتر (X)</option>
-                    <option value="instagram">إنستجرام</option>
-                    <option value="linkedin">لينكد إن</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="username">اسم المستخدم أو رابط الحساب:</label>
-                <input type="text" id="username" name="username" placeholder="أدخل اسم المستخدم أو الرابط هنا" required>
-            </div>
-
-            <!-- ملاحظة: لن نطلب كلمات المرور هنا لأسباب أمنية. التحليل سيعتمد على البيانات المتاحة للجمهور أو معلومات مصرح بها عبر APIs آمنة. -->
-            <p style="font-size: 0.9em; color: #888;">
-                لن نطلب بيانات تسجيل الدخول الحساسة. يعتمد التحليل على البيانات المتاحة للجمهور وعلى مؤشرات الضعف العامة.
-            </p>
-
-            <div class="form-group">
-                <button type="submit">بدء التحليل</button>
-            </div>
-        </form>
-
-        <div id="results" class="results-section">
-            <h2>نتائج التحليل</h2>
-            <h3>ملخص الضعف:</h3>
-            <p id="summaryText">الذكاء الاصطناعي يقوم بتحليل البيانات...</p>
-            
-            <h3>توصيات لتحسين الأمان:</h3>
-            <ul id="recommendationsList">
-                <!-- سيتم إضافة التوصيات هنا بواسطة JavaScript -->
-                <li>جاري جلب التوصيات...</li>
-            </ul>
+        <div class="input-group">
+            <input type="text" id="answerInput" placeholder="اكتبي إجابتك هنا...">
         </div>
+
+        <button onclick="submitAnswer()">إرسال</button>
+
+        <p id="responseMessage"></p>
     </div>
 
-    <footer>
-        <p>&copy; 2023 محلل الضعف بالذكاء الاصطناعي. جميع الحقوق محفوظة.</p>
-    </footer>
-
     <script>
-        document.getElementById('analysisForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // منع إرسال النموذج الافتراضي
+        const questionText = document.getElementById('questionText');
+        const answerInput = document.getElementById('answerInput');
+        const responseMessage = document.getElementById('responseMessage');
+        const mainTitle = document.getElementById('mainTitle');
+        let currentQuestion = 0; // 0: شلونچ؟, 1: آني حباب؟, 2: مشتاقلچ؟
 
-            const platform = document.getElementById('platform').value;
-            const username = document.getElementById('username').value;
+        const questions = [
+            {
+                q: 'شلونچ يا وردتي؟',
+                responses: {
+                    'تعبانة': 'يا بعد روحي، سلامتكِ ألف سلامة، الله يهون عليكِ كل تعب. يلا جاوبيني على السؤال اللي بعده.',
+                    'زينه': 'يا عمري، الحمد لله على كل حال، دايمًا بخير وصحة وعافية إن شاء الله. يلا جاوبيني على السؤال اللي بعده.'
+                },
+                next: 1
+            },
+            {
+                q: 'آني حباب؟',
+                responses: {
+                    'وكح': 'هههههه، معقولة آني وكح؟ يمكن شوية بس. المهم، جاوبيني على السؤال اللي بعده.',
+                    'حباب': 'فدوة لقلبكِ! هذا العشم بيكِ. يلا جاوبيني على السؤال اللي بعده.'
+                },
+                next: 2
+            },
+            {
+                q: 'مشتاقلچ انتِ هم؟',
+                responses: {
+                    'اهواي': 'يا روحي انتِ، آني مشتاقلچ أكثر وأكثر بكثير. يا أحلى وردة بالكون.',
+                    'دروح': 'شنو دروح؟! عبالكِ ما أحبكِ يعني؟ لا لا، آني متأكد انو انتِ هم مشتاقتلي.'
+                },
+                next: -1 // -1 يعني نهاية الأسئلة
+            }
+        ];
 
-            // هنا يمكنك إرسال البيانات إلى خادم Backend الخاص بك
-            // الذي سيقوم بدوره بالتفاعل مع نموذج الذكاء الاصطناعي
-            console.log(`بدء التحليل لـ: ${username} على منصة: ${platform}`);
+        function submitAnswer() {
+            const answer = answerInput.value.trim();
+            const currentQ = questions[currentQuestion];
+            let foundResponse = false;
 
-            // إظهار قسم النتائج وتحديث النصوص
-            const resultsSection = document.getElementById('results');
-            resultsSection.style.display = 'block';
-            document.getElementById('summaryText').textContent = 'جاري تحليل بيانات حسابك باستخدام الذكاء الاصطناعي...';
-            document.getElementById('recommendationsList').innerHTML = '<li>جاري توليد التوصيات...</li>';
+            if (currentQ) {
+                // Check for keywords in the answer
+                if (currentQuestion === 0) { // شلونچ؟
+                    if (answer.includes('تعبانة') || answer.includes('تعبانه')) {
+                        responseMessage.innerText = currentQ.responses['تعبانة'];
+                        foundResponse = true;
+                    } else if (answer.includes('زينه') || answer.includes('زينة') || answer.includes('الحمدلله')) {
+                        responseMessage.innerText = currentQ.responses['زينه'];
+                        foundResponse = true;
+                    }
+                } else if (currentQuestion === 1) { // آني حباب؟
+                    if (answer.includes('وكح') || answer.includes('لا')) {
+                        responseMessage.innerText = currentQ.responses['وكح'];
+                        foundResponse = true;
+                    } else if (answer.includes('حباب') || answer.includes('اي')) {
+                        responseMessage.innerText = currentQ.responses['حباب'];
+                        foundResponse = true;
+                    }
+                } else if (currentQuestion === 2) { // مشتاقلچ؟
+                    if (answer.includes('اهواي') || answer.includes('اي')) {
+                        responseMessage.innerText = currentQ.responses['اهواي'];
+                        foundResponse = true;
+                    } else if (answer.includes('دروح') || answer.includes('لا')) {
+                        responseMessage.innerText = currentQ.responses['دروح'];
+                        foundResponse = true;
+                    }
+                }
 
-            // هذا جزء توضيحي فقط. في الواقع، ستقوم بإجراء طلب (fetch/axios) إلى الخادم
-            // بعد الحصول على استجابة من الخادم، ستقوم بتحديث هذه العناصر
+                if (foundResponse) {
+                    answerInput.value = ''; // Clear input
+                    currentQuestion = currentQ.next; // Move to next question
 
-            setTimeout(() => {
-                // بيانات وهمية للنتائج
-                const dummyResults = {
-                    summary: `تم العثور على عدة نقاط ضعف محتملة في حسابك على ${platform}، مثل ضعف كلمة المرور المحتمل، عدم تفعيل المصادقة الثنائية، ومشاركة معلومات شخصية زائدة.`,
-                    recommendations: [
-                        'تفعيل المصادقة الثنائية (2FA) على الفور.',
-                        'استخدام كلمة مرور قوية وفريدة لا يقل طولها عن 12 حرفًا وتحتوي على أحرف كبيرة وصغيرة وأرقام ورموز.',
-                        'مراجعة إعدادات الخصوصية وتقييد من يمكنه رؤية منشوراتك ومعلوماتك الشخصية.',
-                        'تجنب النقر على الروابط المشبوهة أو مشاركة معلومات حساسة عبر الرسائل المباشرة.',
-                        'مراجعة التطبيقات المرتبطة بحسابك وإلغاء صلاحيات أي تطبيق غير ضروري أو مشبوه.'
-                    ]
-                };
-
-                document.getElementById('summaryText').textContent = dummyResults.summary;
-                const recommendationsList = document.getElementById('recommendationsList');
-                recommendationsList.innerHTML = ''; // مسح العناصر القديمة
-                dummyResults.recommendations.forEach(rec => {
-                    const li = document.createElement('li');
-                    li.textContent = rec;
-                    recommendationsList.appendChild(li);
-                });
-            }, 3000); // محاكاة وقت التحميل
-        });
+                    setTimeout(() => {
+                        if (currentQuestion !== -1 && questions[currentQuestion]) {
+                            questionText.innerText = questions[currentQuestion].q;
+                            responseMessage.innerText = ''; // Clear previous response
+                        } else {
+                            // End of questions
+                            questionText.innerText = 'شكرًا لمروركِ وردتي!';
+                            responseMessage.innerText = 'أنتِ الأجمل والألطف، ودائمًا بقلبي ❤️';
+                            answerInput.style.display = 'none';
+                            document.querySelector('button').style.display = 'none';
+                            mainTitle.innerHTML = 'أحبج يا وردتي الأجمل 💖';
+                        }
+                    }, 2000); // Wait 2 seconds before showing next question
+                } else {
+                    responseMessage.innerText = 'اجابتك غير واضحه، حاولي بكلمة "تعبانة" أو "زينه" / "وكح" أو "حباب" / "اهواي" أو "دروح"';
+                }
+            }
+        }
     </script>
 </body>
 </html>
