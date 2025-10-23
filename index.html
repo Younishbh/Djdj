@@ -3,248 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إلى وردتي اللطيفة</title>
+    <title>وردتي الغبيه 🩷🌷</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Changa:wght@300;400;500;600;700&display=swap');
-
         body {
-            font-family: 'Changa', sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background-color: #fce4ec; /* لون وردي فاتح */
             margin: 0;
-            background: linear-gradient(135deg, #f06d06, #f3d4d4); /* تدرج لوني جذاب */
             color: #333;
-            overflow: hidden;
-            position: relative;
+            overflow-x: hidden; /* لمنع ظهور شريط التمرير الأفقي إذا الدبدوب خرج قليلاً */
         }
-
         .container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 500px;
             width: 90%;
             animation: fadeIn 1s ease-out;
-            position: relative;
-            z-index: 2;
+            position: relative; /* لتحديد موضع الدبدوب بالنسبة للحاوية */
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         h1 {
-            color: #d12e69; /* لون وردي للعنوان */
+            color: #d81b60; /* لون وردي غامق */
             margin-bottom: 25px;
-            font-size: 2.5em;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            font-size: 2.2em;
         }
-
+        .section {
+            display: none; /* إخفاء الأقسام في البداية */
+            margin-top: 20px;
+            position: relative; /* للسماح بوضع الدبدوب بجانبه بشكل صحيح */
+            padding-right: 80px; /* مسافة لكي لا يتداخل الدبدوب مع النص */
+        }
+        .section.active {
+            display: block; /* إظهار القسم النشط */
+        }
         p {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: #555;
-            font-size: 1.1em;
-        }
-
-        .input-group input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 12px;
-            border: 2px solid #f06d06; /* لون برتقالي للحدود */
-            border-radius: 10px;
-            font-size: 1em;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .input-group input[type="text"]:focus {
-            outline: none;
-            border-color: #d12e69; /* لون وردي عند التركيز */
-            box-shadow: 0 0 10px rgba(209, 46, 105, 0.2);
-        }
-
-        button {
-            background-color: #f06d06; /* لون برتقالي للزر */
-            color: white;
-            padding: 14px 25px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 5px 15px rgba(240, 109, 6, 0.3);
-            margin-top: 15px;
-        }
-
-        button:hover {
-            background-color: #d12e69; /* لون وردي عند التحويم */
-            transform: translateY(-3px);
-        }
-
-        #responseMessage {
-            margin-top: 25px;
             font-size: 1.3em;
+            margin-bottom: 25px;
+            color: #555;
+        }
+        .buttons button {
+            background-color: #ff4081; /* لون أزرق جذاب */
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .buttons button:hover {
+            background-color: #d81b60; /* لون أزرق أغمق عند التحويم */
+            transform: translateY(-2px);
+        }
+        .final-message {
+            font-size: 1.5em;
+            color: #ff4081;
+            margin-top: 30px;
             font-weight: bold;
-            color: #d12e69;
-            min-height: 30px;
         }
-
-        /* Bubbles animation */
-        .bubble {
+        .teddy-bear {
             position: absolute;
-            background-color: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: floatBubble 15s infinite ease-in-out;
-            z-index: 1;
+            left: -80px; /* تحريك الدبدوب إلى اليسار خارج القسم */
+            top: 50%;
+            transform: translateY(-50%); /* لتوسيط الدبدوب عمودياً */
+            width: 70px; /* حجم الدبدوب */
+            height: auto;
+            display: none; /* إخفاء الدبدوب في البداية */
+            animation: bounce 0.8s infinite alternate ease-in-out; /* حركة نط بسيطة */
+        }
+        .section.active .teddy-bear {
+            display: block; /* إظهار الدبدوب في القسم النشط فقط */
         }
 
-        @keyframes floatBubble {
-            0% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
-            50% { transform: translateY(-100vh) translateX(50px) scale(1.2); opacity: 0.8; }
-            100% { transform: translateY(0) translateX(0) scale(1); opacity: 1; }
+        @keyframes bounce {
+            from { transform: translateY(-50%) translateX(0); }
+            to { transform: translateY(-60%) translateX(5px); }
         }
 
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 20px;
-            }
-            h1 {
-                font-size: 2em;
-            }
-            p {
-                font-size: 1em;
-            }
-            button {
-                padding: 12px 20px;
-                font-size: 1em;
-            }
+        /* تعديل لموضع الدبدوب في القسم الأخير إذا كان هناك نص طويل */
+        #finalMessage .teddy-bear {
+            top: 30%; /* تعديل الموضع العلوي للقسم الأخير */
         }
     </style>
 </head>
 <body>
-    <div class="bubble" style="width: 60px; height: 60px; top: 10%; left: 15%; animation-delay: 0s;"></div>
-    <div class="bubble" style="width: 40px; height: 40px; top: 30%; left: 80%; animation-delay: 3s;"></div>
-    <div class="bubble" style="width: 80px; height: 80px; top: 60%; left: 30%; animation-delay: 6s;"></div>
-    <div class="bubble" style="width: 50px; height: 50px; top: 80%; left: 5%; animation-delay: 9s;"></div>
-    <div class="bubble" style="width: 70px; height: 70px; top: 20%; left: 50%; animation-delay: 12s;"></div>
-
     <div class="container">
-        <h1 id="mainTitle">إلى وردتي اللطيفة والغبيه ❤️</h1>
-        <p id="questionText">شلونچ يا وردتي؟</p>
+        <h1>وردتي اللطيفه الغبيه 🎀🩷🩷🩷🩷</h1>
 
-        <div class="input-group">
-            <input type="text" id="answerInput" placeholder="اكتبي إجابتك هنا...">
+        <div id="section1" class="section active">
+            <img src="https://i.imgur.com/rN5nO8Y.png" alt="دبدوب كيوت يؤشر" class="teddy-bear">
+            <p>شلونچ ؟؟</p>
+            <div class="buttons">
+                <button onclick="answerQuestion(1, 'نفستي تعبانة')">نفستي تعبانة</button>
+                <button onclick="answerQuestion(1, 'معليك')">معليك</button>
+                <button onclick="answerQuestion(1, 'زين')">زين</button>
+            </div>
         </div>
 
-        <button onclick="submitAnswer()">إرسال</button>
+        <div id="section2" class="section">
+            <img src="https://i.imgur.com/rN5nO8Y.png" alt="دبدوب كيوت يؤشر" class="teddy-bear">
+            <p>تحبيني؟</p>
+            <div class="buttons">
+                <button onclick="answerQuestion(2, 'لا')">لا</button>
+                <button onclick="answerQuestion(2, 'لا')">لا</button>
+            </div>
+        </div>
 
-        <p id="responseMessage"></p>
+        <div id="section3" class="section">
+            <img src="https://i.imgur.com/rN5nO8Y.png" alt="دبدوب كيوت يؤشر" class="teddy-bear">
+            <p>مشتاقتلي؟</p>
+            <div class="buttons">
+                <button onclick="answerQuestion(3, 'اي')">اي</button>
+                <button onclick="answerQuestion(3, 'اي')">اي</button>
+            </div>
+        </div>
+
+        <div id="section4" class="section">
+            <img src="https://i.imgur.com/rN5nO8Y.png" alt="دبدوب كيوت يؤشر" class="teddy-bear">
+            <p>تونستي ؟</p>
+            <div class="buttons">
+                <button onclick="answerQuestion(4, 'اي كلش')">اي كلش</button>
+                <button onclick="answerQuestion(4, 'لا ضايجة منك')">لا ضايجة منك</button>
+            </div>
+        </div>
+
+        <div id="section5" class="section">
+            <img src="https://i.imgur.com/rN5nO8Y.png" alt="دبدوب كيوت يؤشر" class="teddy-bear">
+            <p>مشتاقلچ آني 😞</p>
+            <div class="buttons">
+                <button onclick="answerQuestion(5, 'اني هم')">آني هم</button>
+                <button onclick="answerQuestion(5, 'ما مشتاقتلك ولي')">ما مشتاقتلك ولي</button>
+            </div>
+        </div>
+
+        <div id="finalMessage" class="section">
+            <img src="https://i.imgur.com/rN5nO8Y.png" alt="دبدوب كيوت يؤشر" class="teddy-bear">
+            <p class="final-message">تعبناچ ياغبيه💜💜💜💜💜💜💜</p>
+            <p>
+        </div>
     </div>
 
     <script>
-        const questionText = document.getElementById('questionText');
-        const answerInput = document.getElementById('answerInput');
-        const responseMessage = document.getElementById('responseMessage');
-        const mainTitle = document.getElementById('mainTitle');
-        let currentQuestion = 0; // 0: شلونچ؟, 1: آني حباب؟, 2: مشتاقلچ؟
+        let currentSection = 1;
 
-        const questions = [
-            {
-                q: 'شلونچ يا وردتي؟',
-                responses: {
-                    'تعبانة': 'يا بعد روحي، سلامتكِ ألف سلامة، الله يهون عليكِ كل تعب. يلا جاوبيني على السؤال اللي بعده.',
-                    'زينه': 'يا عمري، الحمد لله على كل حال، دايمًا بخير وصحة وعافية إن شاء الله. يلا جاوبيني على السؤال اللي بعده.'
-                },
-                next: 1
-            },
-            {
-                q: 'آني حباب؟',
-                responses: {
-                    'وكح': 'هههههه، معقولة آني وكح؟ يمكن شوية بس. المهم، جاوبيني على السؤال اللي بعده.',
-                    'حباب': 'فدوة لقلبكِ! هذا العشم بيكِ. يلا جاوبيني على السؤال اللي بعده.'
-                },
-                next: 2
-            },
-            {
-                q: 'مشتاقلچ انتِ هم؟',
-                responses: {
-                    'اهواي': 'يا روحي انتِ، آني مشتاقلچ أكثر وأكثر بكثير. يا أحلى وردة بالكون.',
-                    'دروح': 'شنو دروح؟! عبالكِ ما أحبكِ يعني؟ لا لا، آني متأكد انو انتِ هم مشتاقتلي.'
-                },
-                next: -1 // -1 يعني نهاية الأسئلة
-            }
-        ];
+        function answerQuestion(sectionNumber, answer) {
+            console.log(`Question ${sectionNumber} answered: ${answer}`);
 
-        function submitAnswer() {
-            const answer = answerInput.value.trim();
-            const currentQ = questions[currentQuestion];
-            let foundResponse = false;
+            document.getElementById(`section${sectionNumber}`).classList.remove('active');
+            currentSection++;
 
-            if (currentQ) {
-                // Check for keywords in the answer
-                if (currentQuestion === 0) { // شلونچ؟
-                    if (answer.includes('تعبانة') || answer.includes('تعبانه')) {
-                        responseMessage.innerText = currentQ.responses['تعبانة'];
-                        foundResponse = true;
-                    } else if (answer.includes('زينه') || answer.includes('زينة') || answer.includes('الحمدلله')) {
-                        responseMessage.innerText = currentQ.responses['زينه'];
-                        foundResponse = true;
-                    }
-                } else if (currentQuestion === 1) { // آني حباب؟
-                    if (answer.includes('وكح') || answer.includes('لا')) {
-                        responseMessage.innerText = currentQ.responses['وكح'];
-                        foundResponse = true;
-                    } else if (answer.includes('حباب') || answer.includes('اي')) {
-                        responseMessage.innerText = currentQ.responses['حباب'];
-                        foundResponse = true;
-                    }
-                } else if (currentQuestion === 2) { // مشتاقلچ؟
-                    if (answer.includes('اهواي') || answer.includes('اي')) {
-                        responseMessage.innerText = currentQ.responses['اهواي'];
-                        foundResponse = true;
-                    } else if (answer.includes('دروح') || answer.includes('لا')) {
-                        responseMessage.innerText = currentQ.responses['دروح'];
-                        foundResponse = true;
-                    }
-                }
-
-                if (foundResponse) {
-                    answerInput.value = ''; // Clear input
-                    currentQuestion = currentQ.next; // Move to next question
-
-                    setTimeout(() => {
-                        if (currentQuestion !== -1 && questions[currentQuestion]) {
-                            questionText.innerText = questions[currentQuestion].q;
-                            responseMessage.innerText = ''; // Clear previous response
-                        } else {
-                            // End of questions
-                            questionText.innerText = 'شكرًا لمروركِ وردتي!';
-                            responseMessage.innerText = 'أنتِ الأجمل والألطف، ودائمًا بقلبي ❤️';
-                            answerInput.style.display = 'none';
-                            document.querySelector('button').style.display = 'none';
-                            mainTitle.innerHTML = 'أحبج يا وردتي الأجمل 💖';
-                        }
-                    }, 2000); // Wait 2 seconds before showing next question
-                } else {
-                    responseMessage.innerText = 'اجابتك غير واضحه، حاولي بكلمة "تعبانة" أو "زينه" / "وكح" أو "حباب" / "اهواي" أو "دروح"';
-                }
+            if (currentSection <= 5) {
+                document.getElementById(`section${currentSection}`).classList.add('active');
+            } else {
+                document.getElementById('finalMessage').classList.add('active');
             }
         }
     </script>
