@@ -491,10 +491,14 @@
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('.nav-link');
             const sections = document.querySelectorAll('.section');
+            
+            // Memory Slider Elements
             const memorySlider = document.querySelector('.memory-slider');
             const sliderItems = document.querySelectorAll('.slider-item');
             const prevBtn = document.querySelector('.prev-btn');
             const nextBtn = document.querySelector('.next-btn');
+            let currentSlide = 0; 
+
             const audioToggleBtns = document.querySelectorAll('.audio-toggle');
 
             // Music Player Elements (for YouTube)
@@ -512,7 +516,7 @@
 
             const youtubeSongs = [
                 { id: getYouTubeVideoId('https://youtube.com/watch?v=amy2fttDCb8'), title: "مالو", artist: "عمرو دياب" },
-                { id: getYouTubeVideoId('https://youtube.com/watch?v=49kzVeoM7R'), title: "حكايتنا كملت", artist: "هيثم شاكر" },
+                { id: getYouTubeVideoId('https://youtube.com/watch?v=49kzVeoM7Rs'), title: "حكايتنا كملت", artist: "هيثم شاكر" }, // تم تصحيح الرابط هنا
                 { id: getYouTubeVideoId('https://youtube.com/watch?v=NpKlagmIfsQ'), title: "مخزون السعادة", artist: "صابر الرباعي" }
             ];
 
@@ -520,7 +524,9 @@
                 const song = youtubeSongs[videoIndex];
                 if (song && song.id) {
                     currentYouTubeVideoId = song.id;
-                    youtubePlayer.src = `https://www.youtube.com/embed/${song.id}?autoplay=1&enablejsapi=1`; // autoplay=1 لجعل الفيديو يبدأ تلقائياً
+                    // Add &autoplay=1 to make it play automatically.
+                    // enablejsapi=1 is for more advanced JS control if needed.
+                    youtubePlayer.src = `https://www.youtube.com/embed/${song.id}?autoplay=1&enablejsapi=1`; 
                     
                     document.querySelectorAll('.youtube-playlist-item').forEach((item, i) => {
                         item.classList.remove('active-song');
@@ -529,16 +535,6 @@
                         }
                     });
                 }
-            }
-
-            function playNextYouTubeVideo() {
-                currentYouTubeIndex = (currentYouTubeIndex + 1) % youtubeSongs.length;
-                loadYouTubeVideo(currentYouTubeIndex);
-            }
-
-            function playPrevYouTubeVideo() {
-                currentYouTubeIndex = (currentYouTubeIndex - 1 + youtubeSongs.length) % youtubeSongs.length;
-                loadYouTubeVideo(currentYouTubeIndex);
             }
 
             // Populate YouTube playlist
@@ -562,50 +558,39 @@
                 }
             });
 
-            // Helper function to show a specific section
-            function showSection(id) {
-                sections.forEach(section => {
-                    section.classList.remove('active');
-                });
-                document.getElementById(id).classList.add('active');
-
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${id}`) {
-                        link.classList.add('active');
-                    }
-                });
-
-                // Pause YouTube player if navigating away from songs section
-                if (id !== 'songs' && youtubePlayer.contentWindow) {
-                    // This attempts to pause the YouTube video.
-                    // It requires the YouTube IFrame Player API for full control,
-                    // but for a simple pause, setting src to empty might stop it.
-                    // A more robust solution involves loading the YouTube API.
-                    youtubePlayer.src = "";
-                } else if (id === 'songs' && !youtubePlayer.src) {
-                    // If returning to songs and no video is loaded, load the first one
-                    loadYouTubeVideo(currentYouTubeIndex);
-                }
-
-                // Stop all other audios when switching sections
-                document.querySelectorAll('audio').forEach(audio => audio.pause());
+            // Initial load for YouTube player
+            if (youtubeSongs.length > 0) {
+                loadYouTubeVideo(currentYouTubeIndex);
             }
 
-            // Initialize: show home section and activate its nav link
-            showSection('home');
-            loadYouTubeVideo(currentYouTubeIndex); // Load the first YouTube video on page load
-
-            // Navigation logic
+            // Navigation functionality
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-                    const targetId = e.target.getAttribute('href').substring(1);
-                    showSection(targetId);
+                    const targetId = link.getAttribute('href').substring(1);
+
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    link.classList.add('active');
+
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetId) {
+                            section.classList.add('active');
+                        }
+                    });
+
+                    // If navigating to songs section, ensure YouTube player loads
+                    if (targetId === 'songs' && youtubeSongs.length > 0 && !currentYouTubeVideoId) {
+                        loadYouTubeVideo(currentYouTubeIndex);
+                    }
                 });
             });
 
-            // Memory Slider Logic
+            // Set initial active link and section
+            document.querySelector('.nav-link').classList.add('active');
+            document.getElementById('home').classList.add('active');
+
+            // Memory Slider functionality
             function showSlide(index) {
                 sliderItems.forEach((item, i) => {
                     item.classList.remove('active');
@@ -625,51 +610,53 @@
                 showSlide(currentSlide);
             });
 
-            // Audio Toggle Buttons (for memory section)
-            audioToggleBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const audioId = btn.dataset.audio;
+            // Audio toggle for memory section
+            audioToggleBtns.forEach(button => {
+                button.addEventListener('click', () => {
+                    const audioId = button.dataset.audio;
                     const audio = document.getElementById(audioId);
-                    if (audio.paused) {
-                        audio.play();
-                        btn.textContent = 'إيقاف الموسيقى';
-                    } else {
-                        audio.pause();
-                        btn.textContent = 'تشغيل الموسيقى';
+                    if (audio) {
+                        if (audio.paused) {
+                            audio.play();
+                            button.textContent = 'إيقاف الموسيقى';
+                        } else {
+                            audio.pause();
+                            button.textContent = 'تشغيل الموسيقى';
+                        }
                     }
                 });
             });
 
-            // Message Modal Logic
+
+            // Messages Modal functionality
             const messageModal = document.getElementById('message-modal');
             const closeBtn = document.querySelector('.close-btn');
             const modalTitle = document.getElementById('modal-title');
             const modalText = document.getElementById('modal-text');
-            const messageCards = document.querySelectorAll('.message-card');
 
             const messages = {
                 msg1: {
-                    title: "أول رسالة حب",
-                    text: "مريومتي، من أول ما شفتج حسيت بشي مختلف. كنت دايماً أفكر بيج وبضحكتج. كل يوم يمر بوجودج أحلى من اللي قبله. انتي أملي وحبي الأبدي."
+                    title: "رسالة 1: أحبچ من كل گلبي",
+                    text: "مريومتي، كل يوم يمر بيج هو هدية من السماء. وجودچ بحياتي غير كلشي، خلى للأيام لون وللطعم معنى. أحب كل تفصيلة بيج، ضحكتج، كلامج، حتى زعلج. مستحيل أگدر أتخيل يوم من دونج."
                 },
                 msg2: {
-                    title: "معنى السعادة",
-                    text: "السعادة بالنسبة إلي هي اللحظات اللي أقضيها وياج. كلمة أحبج قليلة بحق اللي أحس بيه. كل نبضة بقلبي تنادي باسمج."
+                    title: "رسالة 2: يا عمري",
+                    text: "إنتِ مو بس حبيبتي، إنتِ صديقتي وسندي وكلشي بحياتي. لما الدنيا تضيج بيه، ألقى كلامج يواسيني وعيونج تحضني. يا رب نبقى سوى لأخر العمر ونكمل كل أحلامنا."
                 },
                 msg3: {
-                    title: "لأجل عيونج",
-                    text: "مستعد أسوي أي شي حتى أشوف الابتسامة على وجهج. انتي النور اللي يضوي دربي، والروح اللي تسكن جسدي. أحبج أكثر من أي شي بالكون."
+                    title: "رسالة 3: أنتِ عالمي",
+                    text: "كل أغنية اسمعها، كل مكان أروحله، كل ذكرى حلوة تتخلل ببالي، تكونين إنتِ البطلة بيها. إنتِ عالمي اللي أريد أعيش بيه وأكون بطل قصته. أحبج كد الدنيا و اكثر."
                 }
             };
 
-            messageCards.forEach(card => {
+            document.querySelectorAll('.message-card').forEach(card => {
                 card.addEventListener('click', () => {
                     const msgKey = card.dataset.message;
                     const message = messages[msgKey];
                     if (message) {
                         modalTitle.textContent = message.title;
                         modalText.textContent = message.text;
-                        messageModal.style.display = 'flex';
+                        messageModal.style.display = 'flex'; // Use flex to center
                     }
                 });
             });
