@@ -248,79 +248,72 @@
             cursor: pointer;
         }
 
-        /* Music Player */
-        .music-player {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px var(--shadow-color);
-            max-width: 400px;
+        /* YouTube Player Styling */
+        .youtube-player-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             margin: 30px auto;
-            text-align: center;
-        }
-
-        .song-cover {
-            width: 150px;
-            height: 150px;
+            max-width: 600px; /* Adjust as needed */
             border-radius: 10px;
-            object-fit: cover;
-            margin-bottom: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px var(--shadow-color);
+            background-color: black; /* To hide loading flicker */
         }
 
-        .music-player h3 {
-            margin: 10px 0 5px;
-            color: var(--heading-color);
+        .youtube-player-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
         }
 
-        .music-player p {
-            color: #666;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-        }
-
-        .controls button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            margin: 0 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .controls button:hover {
-            background-color: #e08e9b;
-        }
-
-        .playlist ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
+        .youtube-playlist-item {
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px var(--shadow-color);
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .playlist li {
-            padding: 10px 15px;
+            padding: 15px 20px;
             border-bottom: 1px solid var(--light-grey);
             cursor: pointer;
             text-align: right;
             transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .playlist li:last-child {
+        .youtube-playlist-item:last-child {
             border-bottom: none;
         }
 
-        .playlist li:hover, .playlist li.active-song {
+        .youtube-playlist-item:hover, .youtube-playlist-item.active-song {
             background-color: var(--secondary-color);
             color: var(--heading-color);
         }
+
+        .youtube-playlist-item img {
+            width: 80px;
+            height: 45px; /* 16:9 for thumbnail */
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .youtube-playlist-item .song-info {
+            flex-grow: 1;
+        }
+
+        .youtube-playlist-item .song-info h4 {
+            margin: 0 0 5px;
+            color: var(--heading-color);
+            font-size: 1.1em;
+        }
+
+        .youtube-playlist-item .song-info p {
+            margin: 0;
+            color: #666;
+            font-size: 0.85em;
+        }
+
 
         /* Future Plans Grid */
         .future-plans-grid {
@@ -448,27 +441,18 @@
             </div>
         </section>
 
-        <!-- أغنيات لكِ -->
+        <!-- أغنيات لكِ (باستخدام مشغل YouTube) -->
         <section id="songs" class="section">
             <div class="container">
                 <h2>أغنيات لكِ</h2>
-                <div class="music-player">
-                    <img id="current-song-cover" src="images/amr_diab_malo.jpg" alt="غلاف الأغنية" class="song-cover">
-                    <h3 id="current-song-title">مالو</h3>
-                    <p id="current-song-artist">عمرو دياب</p>
-                    <audio id="player-audio" src="audio/amr_diab_malo.mp3"></audio>
-                    <div class="controls">
-                        <button id="prev-song-btn">السابقة</button>
-                        <button id="play-pause-btn">تشغيل</button>
-                        <button id="next-song-btn">التالية</button>
-                    </div>
+                <div class="youtube-player-container">
+                    <!-- مشغل YouTube سيتم تحميله هنا بواسطة JavaScript -->
+                    <iframe id="youtube-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
                 <div class="playlist">
                     <h3>قائمة الأغاني</h3>
-                    <ul>
-                        <li data-src="audio/amr_diab_malo.mp3" data-title="مالو" data-artist="عمرو دياب" data-cover="images/amr_diab_malo.jpg">عمرو دياب - مالو</li>
-                        <li data-src="audio/haitham_shaker_hekayetna_kamalet.mp3" data-title="حكايتنا كملت" data-artist="هيثم شاكر" data-cover="images/haitham_shaker_hekayetna_kamalet.jpg">هيثم شاكر - حكايتنا كملت</li>
-                        <li data-src="audio/saber_el_roubai_makhzoun_el_saada.mp3" data-title="مخزون السعادة" data-artist="صابر الرباعي" data-cover="images/saber_el_roubai_makhzoun_el_saada.jpg">صابر الرباعي - مخزون السعادة</li>
+                    <ul id="youtube-playlist">
+                        <!-- الأغاني ستضاف هنا بواسطة JavaScript -->
                     </ul>
                 </div>
             </div>
@@ -513,19 +497,70 @@
             const nextBtn = document.querySelector('.next-btn');
             const audioToggleBtns = document.querySelectorAll('.audio-toggle');
 
-            // Music Player Elements
-            const playerAudio = document.getElementById('player-audio');
-            const playPauseBtn = document.getElementById('play-pause-btn');
-            const prevSongBtn = document.getElementById('prev-song-btn');
-            const nextSongBtn = document.getElementById('next-song-btn');
-            const currentSongTitle = document.getElementById('current-song-title');
-            const currentSongArtist = document.getElementById('current-song-artist');
-            const currentSongCover = document.getElementById('current-song-cover');
-            const playlistItems = document.querySelectorAll('.playlist li');
+            // Music Player Elements (for YouTube)
+            const youtubePlayer = document.getElementById('youtube-player');
+            const youtubePlaylist = document.getElementById('youtube-playlist');
+            let currentYouTubeVideoId = ''; // لتتبع الفيديو الحالي
+            let currentYouTubeIndex = 0;
 
-            let currentSlide = 0;
-            let isPlaying = false;
-            let currentSongIndex = 0;
+            // Helper function to extract video ID from YouTube URL
+            function getYouTubeVideoId(url) {
+                const regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                return (match && match[2].length === 11) ? match[2] : null;
+            }
+
+            const youtubeSongs = [
+                { id: getYouTubeVideoId('https://youtube.com/watch?v=amy2fttDCb8'), title: "مالو", artist: "عمرو دياب" },
+                { id: getYouTubeVideoId('https://youtube.com/watch?v=49kzVeoM7R'), title: "حكايتنا كملت", artist: "هيثم شاكر" },
+                { id: getYouTubeVideoId('https://youtube.com/watch?v=NpKlagmIfsQ'), title: "مخزون السعادة", artist: "صابر الرباعي" }
+            ];
+
+            function loadYouTubeVideo(videoIndex) {
+                const song = youtubeSongs[videoIndex];
+                if (song && song.id) {
+                    currentYouTubeVideoId = song.id;
+                    youtubePlayer.src = `https://www.youtube.com/embed/${song.id}?autoplay=1&enablejsapi=1`; // autoplay=1 لجعل الفيديو يبدأ تلقائياً
+                    
+                    document.querySelectorAll('.youtube-playlist-item').forEach((item, i) => {
+                        item.classList.remove('active-song');
+                        if (i === videoIndex) {
+                            item.classList.add('active-song');
+                        }
+                    });
+                }
+            }
+
+            function playNextYouTubeVideo() {
+                currentYouTubeIndex = (currentYouTubeIndex + 1) % youtubeSongs.length;
+                loadYouTubeVideo(currentYouTubeIndex);
+            }
+
+            function playPrevYouTubeVideo() {
+                currentYouTubeIndex = (currentYouTubeIndex - 1 + youtubeSongs.length) % youtubeSongs.length;
+                loadYouTubeVideo(currentYouTubeIndex);
+            }
+
+            // Populate YouTube playlist
+            youtubeSongs.forEach((song, index) => {
+                if (song.id) {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('youtube-playlist-item');
+                    listItem.dataset.index = index;
+                    listItem.innerHTML = `
+                        <img src="https://img.youtube.com/vi/${song.id}/default.jpg" alt="غلاف ${song.title}">
+                        <div class="song-info">
+                            <h4>${song.title}</h4>
+                            <p>${song.artist}</p>
+                        </div>
+                    `;
+                    listItem.addEventListener('click', () => {
+                        currentYouTubeIndex = index;
+                        loadYouTubeVideo(currentYouTubeIndex);
+                    });
+                    youtubePlaylist.appendChild(listItem);
+                }
+            });
 
             // Helper function to show a specific section
             function showSection(id) {
@@ -541,15 +576,25 @@
                     }
                 });
 
-                // Stop all audios when switching sections
+                // Pause YouTube player if navigating away from songs section
+                if (id !== 'songs' && youtubePlayer.contentWindow) {
+                    // This attempts to pause the YouTube video.
+                    // It requires the YouTube IFrame Player API for full control,
+                    // but for a simple pause, setting src to empty might stop it.
+                    // A more robust solution involves loading the YouTube API.
+                    youtubePlayer.src = "";
+                } else if (id === 'songs' && !youtubePlayer.src) {
+                    // If returning to songs and no video is loaded, load the first one
+                    loadYouTubeVideo(currentYouTubeIndex);
+                }
+
+                // Stop all other audios when switching sections
                 document.querySelectorAll('audio').forEach(audio => audio.pause());
-                playerAudio.pause();
-                playPauseBtn.textContent = 'تشغيل';
-                isPlaying = false;
             }
 
             // Initialize: show home section and activate its nav link
             showSection('home');
+            loadYouTubeVideo(currentYouTubeIndex); // Load the first YouTube video on page load
 
             // Navigation logic
             navLinks.forEach(link => {
@@ -638,76 +683,6 @@
                     messageModal.style.display = 'none';
                 }
             });
-
-            // Music Player Logic
-            const songs = [
-                { src: "audio/amr_diab_malo.mp3", title: "مالو", artist: "عمرو دياب", cover: "images/amr_diab_malo.jpg" },
-                { src: "audio/haitham_shaker_hekayetna_kamalet.mp3", title: "حكايتنا كملت", artist: "هيثم شاكر", cover: "images/haitham_shaker_hekayetna_kamalet.jpg" },
-                { src: "audio/saber_el_roubai_makhzoun_el_saada.mp3", title: "مخزون السعادة", artist: "صابر الرباعي", cover: "images/saber_el_roubai_makhzoun_el_saada.jpg" }
-            ];
-
-            function loadSong(songIndex) {
-                const song = songs[songIndex];
-                playerAudio.src = song.src;
-                currentSongTitle.textContent = song.title;
-                currentSongArtist.textContent = song.artist;
-                currentSongCover.src = song.cover;
-
-                playlistItems.forEach((item, i) => {
-                    item.classList.remove('active-song');
-                    if (i === songIndex) {
-                        item.classList.add('active-song');
-                    }
-                });
-            }
-
-            function playSong() {
-                playerAudio.play();
-                playPauseBtn.textContent = 'إيقاف';
-                isPlaying = true;
-            }
-
-            function pauseSong() {
-                playerAudio.pause();
-                playPauseBtn.textContent = 'تشغيل';
-                isPlaying = false;
-            }
-
-            function togglePlayPause() {
-                if (isPlaying) {
-                    pauseSong();
-                } else {
-                    playSong();
-                }
-            }
-
-            function playNextSong() {
-                currentSongIndex = (currentSongIndex + 1) % songs.length;
-                loadSong(currentSongIndex);
-                playSong();
-            }
-
-            function playPrevSong() {
-                currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-                loadSong(currentSongIndex);
-                playSong();
-            }
-
-            playPauseBtn.addEventListener('click', togglePlayPause);
-            nextSongBtn.addEventListener('click', playNextSong);
-            prevSongBtn.addEventListener('click', playPrevSong);
-            playerAudio.addEventListener('ended', playNextSong); // Play next song when current one ends
-
-            playlistItems.forEach((item, index) => {
-                item.addEventListener('click', () => {
-                    currentSongIndex = index;
-                    loadSong(currentSongIndex);
-                    playSong();
-                });
-            });
-
-            // Initial load for the first song
-            loadSong(currentSongIndex);
         });
     </script>
 </body>
