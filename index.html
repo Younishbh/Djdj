@@ -444,7 +444,7 @@
         <!-- أغنيات لكِ (باستخدام مشغل YouTube) -->
         <section id="songs" class="section">
             <div class="container">
-                <h2>أغنيات لكِ</h2>
+                <h2>الأغاني إللي أحبهن لأن أحس بي هذني يعبرن بداخلي من الحب و الاشتياق الچ</h2>
                 <div class="youtube-player-container">
                     <!-- مشغل YouTube سيتم تحميله هنا بواسطة JavaScript -->
                     <iframe id="youtube-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -461,22 +461,22 @@
         <!-- مستقبلنا معًا -->
         <section id="future" class="section">
             <div class="container">
-                <h2>مستقبلنا معًا</h2>
+                <h2>بالمستقبل أكتب الأشياء الجديدة والحلوة أهنا</h2>
                 <div class="future-plans-grid">
                     <div class="plan-card">
                         <img src="images/dream_house.png" alt="منزل الأحلام">
-                        <h3>منزل أحلامنا</h3>
-                        <p>أتخيل منزلًا دافئًا مليئًا بالحب والضحكات، حيث نربي عائلتنا الصغيرة.</p>
+                        <h3>بعدين</h3>
+                        <p> بعدين</p>
                     </div>
                     <div class="plan-card">
-                        <img src="images/travel.png" alt="السفر">
-                        <h3>رحلة حول العالم</h3>
-                        <p>نستكشف أجمل بقاع الأرض معًا، نخلق ذكريات جديدة في كل زاوية.</p>
+                        <img src="images/travel.png" alt="بعدين">
+                        <h3>بالمستقبل عمو كافي</h3>
+                        <p>بعدين</p>
                     </div>
                     <div class="plan-card">
                         <img src="images/calendar.png" alt="تواريخ مهمة">
-                        <h3>تواريخنا الخاصة</h3>
-                        <p>نحتفل بكل ذكرى، وكل مناسبة، ونكتب تاريخنا الخاص بأحرف من نور.</p>
+                        <h3>تواريخ المميزة</h3>
+                        <p>2024/12/27 /2025/2/25 /202......</p>
                     </div>
                 </div>
             </div>
@@ -484,7 +484,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2023 صنعت بحب من أجلكِ يا [اسم حبيبتك].</p>
+        <p>&copy; اتمنى يعجبچ الموقع 🫂🩷🦋 مريومتي الحلوة</p>
     </footer>
 
     <script>
@@ -516,7 +516,7 @@
 
             const youtubeSongs = [
                 { id: getYouTubeVideoId('https://youtube.com/watch?v=amy2fttDCb8'), title: "مالو", artist: "عمرو دياب" },
-                { id: getYouTubeVideoId('https://youtube.com/watch?v=49kzVeoM7Rs'), title: "حكايتنا كملت", artist: "هيثم شاكر" }, // تم تصحيح الرابط هنا
+                { id: getYouTubeVideoId('https://youtu.be/cEp51CeYo7w'), title: "حكايتنا كملت", artist: "هيثم شاكر" }, // تم تحديث الرابط هنا
                 { id: getYouTubeVideoId('https://youtube.com/watch?v=NpKlagmIfsQ'), title: "مخزون السعادة", artist: "صابر الرباعي" }
             ];
 
@@ -553,124 +553,4 @@
                     listItem.addEventListener('click', () => {
                         currentYouTubeIndex = index;
                         loadYouTubeVideo(currentYouTubeIndex);
-                    });
-                    youtubePlaylist.appendChild(listItem);
-                }
-            });
-
-            // Initial load for YouTube player
-            if (youtubeSongs.length > 0) {
-                loadYouTubeVideo(currentYouTubeIndex);
-            }
-
-            // Navigation functionality
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('href').substring(1);
-
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    link.classList.add('active');
-
-                    sections.forEach(section => {
-                        section.classList.remove('active');
-                        if (section.id === targetId) {
-                            section.classList.add('active');
-                        }
-                    });
-
-                    // If navigating to songs section, ensure YouTube player loads
-                    if (targetId === 'songs' && youtubeSongs.length > 0 && !currentYouTubeVideoId) {
-                        loadYouTubeVideo(currentYouTubeIndex);
-                    }
-                });
-            });
-
-            // Set initial active link and section
-            document.querySelector('.nav-link').classList.add('active');
-            document.getElementById('home').classList.add('active');
-
-            // Memory Slider functionality
-            function showSlide(index) {
-                sliderItems.forEach((item, i) => {
-                    item.classList.remove('active');
-                    if (i === index) {
-                        item.classList.add('active');
-                    }
-                });
-            }
-
-            prevBtn.addEventListener('click', () => {
-                currentSlide = (currentSlide - 1 + sliderItems.length) % sliderItems.length;
-                showSlide(currentSlide);
-            });
-
-            nextBtn.addEventListener('click', () => {
-                currentSlide = (currentSlide + 1) % sliderItems.length;
-                showSlide(currentSlide);
-            });
-
-            // Audio toggle for memory section
-            audioToggleBtns.forEach(button => {
-                button.addEventListener('click', () => {
-                    const audioId = button.dataset.audio;
-                    const audio = document.getElementById(audioId);
-                    if (audio) {
-                        if (audio.paused) {
-                            audio.play();
-                            button.textContent = 'إيقاف الموسيقى';
-                        } else {
-                            audio.pause();
-                            button.textContent = 'تشغيل الموسيقى';
-                        }
-                    }
-                });
-            });
-
-
-            // Messages Modal functionality
-            const messageModal = document.getElementById('message-modal');
-            const closeBtn = document.querySelector('.close-btn');
-            const modalTitle = document.getElementById('modal-title');
-            const modalText = document.getElementById('modal-text');
-
-            const messages = {
-                msg1: {
-                    title: "رسالة 1: أحبچ من كل گلبي",
-                    text: "مريومتي، كل يوم يمر بيج هو هدية من السماء. وجودچ بحياتي غير كلشي، خلى للأيام لون وللطعم معنى. أحب كل تفصيلة بيج، ضحكتج، كلامج، حتى زعلج. مستحيل أگدر أتخيل يوم من دونج."
-                },
-                msg2: {
-                    title: "رسالة 2: يا عمري",
-                    text: "إنتِ مو بس حبيبتي، إنتِ صديقتي وسندي وكلشي بحياتي. لما الدنيا تضيج بيه، ألقى كلامج يواسيني وعيونج تحضني. يا رب نبقى سوى لأخر العمر ونكمل كل أحلامنا."
-                },
-                msg3: {
-                    title: "رسالة 3: أنتِ عالمي",
-                    text: "كل أغنية اسمعها، كل مكان أروحله، كل ذكرى حلوة تتخلل ببالي، تكونين إنتِ البطلة بيها. إنتِ عالمي اللي أريد أعيش بيه وأكون بطل قصته. أحبج كد الدنيا و اكثر."
-                }
-            };
-
-            document.querySelectorAll('.message-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const msgKey = card.dataset.message;
-                    const message = messages[msgKey];
-                    if (message) {
-                        modalTitle.textContent = message.title;
-                        modalText.textContent = message.text;
-                        messageModal.style.display = 'flex'; // Use flex to center
-                    }
-                });
-            });
-
-            closeBtn.addEventListener('click', () => {
-                messageModal.style.display = 'none';
-            });
-
-            window.addEventListener('click', (event) => {
-                if (event.target === messageModal) {
-                    messageModal.style.display = 'none';
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+    
